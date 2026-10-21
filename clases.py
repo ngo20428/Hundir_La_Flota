@@ -25,8 +25,9 @@ class Tablero:
         """Coloca todos los barcos aleatoriamente y aislados."""
         self.itsasontzis = []
 
-        for eslora, cantidad in barcos_dict.items():
-            for _ in range(cantidad):
+        for eslora, cantidad in barcos_dict.items(): # Cada tipo de barco
+            for _ in range(cantidad): # Repetimos el num de veces que está ese barco
+                # Repetimos hasta encontrar una posición válida
                 posicion_valida = False
                 while not posicion_valida:
                     fila = random.randint(0, filas - 1)
@@ -41,34 +42,34 @@ class Tablero:
                         else:
                             celdas_barco.append((fila + x, col))
 
-                    # 1. Comprobar que el barco cabe en el tablero
+                    # Comprobamos que el barco cabe en el tablero
                     if any(not (0 <= f < filas and 0 <= c < columnas) for f, c in celdas_barco):
 
                         continue # Si no cabe, vuelve a pedir coordenadas nuevas (aquí sí funciona porque está al inicio)
 
-                    # 2. Obtener las celdas que rodean al barco
+                    # Obtenemos las celdas que rodean al barco
                     celdas_adyacentes = set()
-                    for f, c in celdas_barco:
-                        for i in [-1, 0, 1]:
+                    for f, c in celdas_barco: # Para cada casilla del barco
+                        for i in [-1, 0, 1]: # Fila de arriba, misma y la de abajo
                             for j in [-1, 0, 1]:
-                                nf = f + i
+                                nf = f + i # Nuevas coordenadas
                                 nc = c + j
                                 if 0 <= nf < filas and 0 <= nc < columnas:
                                     celdas_adyacentes.add((nf, nc))
 
-                    # 3. Comprobar si los alrededores están limpios
+                    # Comprobamos que no haya barcos alrededor
                     if any(self.tablero_propio[f][c] != agua for f, c in celdas_adyacentes):
                         # Si toca a otro barco, NO hacemos continue. 
-                        # Simplemente dejamos que el bucle vuelva a empezar y genere un nuevo random.
+                        # Dejamos que el bucle vuelva a empezar y genere un nuevo random
                         pass 
                     else:
-                        # Si todo está limpio, colocamos el barco y salimos del bucle while
+                        # Si no hay barcos alrededor, colocamos el barco y salimos del bucle while
                         barco_actual = []
                         for f, c in celdas_barco:
                             self.tablero_propio[f][c] = barco
                             barco_actual.append((f, c))
                         
-                        self.itsasontzis.append(barco_actual) # Aprovechamos para corregir la estructura de sublistas
+                        self.itsasontzis.append(barco_actual) # Añadimos la posición del barco a la lista de barcos
                         posicion_valida = True
 
                 
