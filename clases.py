@@ -45,7 +45,7 @@ class Tablero:
                     # Comprobamos que el barco cabe en el tablero
                     if any(not (0 <= f < filas and 0 <= c < columnas) for f, c in celdas_barco):
 
-                        continue # Si no cabe, vuelve a pedir coordenadas nuevas (aquí sí funciona porque está al inicio)
+                        continue # Si no cabe, vuelve a pedir coordenadas nuevas
 
                     # Obtenemos las celdas que rodean al barco
                     celdas_adyacentes = set()
